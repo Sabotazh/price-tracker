@@ -31,17 +31,25 @@
                     <a href="#about" class="nav__link">About Us</a>
                 </li>
 
-{{--                <li class="nav__item">--}}
-{{--                    <a href="#favorite" class="nav__link">Favorites</a>--}}
-{{--                </li>--}}
+                @auth
+                    <li class="nav__item">
+                        <a href="#favorite" class="nav__link">Favorites</a>
+                    </li>
 
-                <li class="nav__item">
-                    <a href="#visit" class="nav__link">Login</a>
-                </li>
+                    <li class="nav__item">
+                        <a href="{{ route('logout') }}" class="nav__link">Exit</a>
+                    </li>
+                @endauth
 
-                <li class="nav__item">
-                    <a href="#new" class="nav__link">Register</a>
-                </li>
+                @guest
+                    <li class="nav__item">
+                        <a href="#visit" class="nav__link">Login</a>
+                    </li>
+
+                    <li class="nav__item">
+                        <a href="#new" class="nav__link">Register</a>
+                    </li>
+                @endguest
             </ul>
 
             <!--Close button-->
@@ -98,6 +106,18 @@
         </div>
     </section>
 
+
+    @auth
+    <!--==================== FAVORITES ====================-->
+    <section class="favorite section" id="favorite">
+        <h2 class="section__title">Customer Favorites</h2>
+
+        <div class="favorite__container container grid">
+
+        </div>
+    </section>
+    @endauth
+
     <!--==================== ABOUT ====================-->
     <section class="about section" id="about">
         <div class="about__container container grid">
@@ -113,15 +133,7 @@
         </div>
     </section>
 
-    <!--==================== FAVORITES ====================-->
-    <section class="favorite section" id="favorite">
-        <h2 class="section__title">Customer Favorites</h2>
-
-        <div class="favorite__container container grid">
-
-        </div>
-    </section>
-
+    @guest
     <!--==================== VISIT ====================-->
     <section class="visit section" id="visit">
         <div class="visit__container">
@@ -131,16 +143,42 @@
                 <div class="visit__data">
                     <h2 class="section__title">Sign In</h2>
 
-                    <label>Email<br><br>
-                        <input class="visit__description" type="text">
-                    </label>
-                    <br>
-                    <label>Password<br><br>
-                        <input class="visit__description">
-                    </label>
-                    <br>
+                    @if($errors->any())
+                        <div class="error">
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            <br>
+                        </div>
+                    @endif
 
-                    <a href="#" class="button">Login</a>
+                    <form action="{{ route('login') }}" method="post">
+                        @csrf
+                        <label>Email<br><br>
+                            <input
+                                class="visit__description"
+                                type="text"
+                                name="email"
+                                placeholder="admin@example.com"
+                                value="admin@example.com"
+                                required>
+                        </label>
+                        <br>
+                        <label>Password<br><br>
+                            <input
+                                class="visit__description"
+                                type="password"
+                                name="password"
+                                placeholder="test28"
+                                value="test28"
+                                required>
+                        </label>
+                        <br>
+
+                        <button class="button">Login</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -167,24 +205,57 @@
                 <div class="visit__data">
                     <h2 class="section__title">Sign Up</h2>
 
-                    <label>Name<br><br>
-                        <input class="visit__description" type="text">
-                    </label>
-                    <br>
-                    <label>Email<br><br>
-                        <input class="visit__description" type="text">
-                    </label>
-                    <br>
-                    <label>Password<br><br>
-                        <input class="visit__description">
-                    </label>
-                    <br>
+                    @if($errors->any())
+                        <div class="error">
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            <br>
+                        </div>
+                    @endif
 
-                    <a href="#" class="button">Register</a>
+                    <form action="{{ route('register') }}" method="post">
+                        @csrf
+                        <label>Name<br><br>
+                            <input
+                                class="visit__description"
+                                type="text"
+                                name="name"
+                                placeholder="Petro Stashkiv"
+                                value="{{ @old('name') }}"
+                                required>
+                        </label>
+                        <br>
+                        <label>Email<br><br>
+                            <input
+                                class="visit__description"
+                                type="text"
+                                name="email"
+                                placeholder="s.petro@example.com"
+                                value="{{ @old('email') }}"
+                                required>
+                        </label>
+                        <br>
+                        <label>Password<br><br>
+                            <input
+                                class="visit__description"
+                                type="password"
+                                name="password"
+                                placeholder="Qwerty123$"
+                                value="{{ @old('password') }}"
+                                required>
+                        </label>
+                        <br>
+
+                        <button class="button">Register</button>
+                    </form>
                 </div>
             </div>
         </div>
     </section>
+    @endguest
 </main>
 
 <!--==================== FOOTER ====================-->

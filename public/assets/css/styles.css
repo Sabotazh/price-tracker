@@ -97,6 +97,10 @@ img {
   height: auto;
 }
 
+.error {
+  color: red;
+}
+
 /*=============== REUSABLE CSS CLASSES ===============*/
 .container {
   max-width: 1120px;
