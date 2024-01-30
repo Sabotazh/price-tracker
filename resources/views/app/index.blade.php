@@ -106,14 +106,29 @@
         </div>
     </section>
 
-
     @auth
     <!--==================== FAVORITES ====================-->
     <section class="favorite section" id="favorite">
         <h2 class="section__title">Customer Favorites</h2>
-
         <div class="favorite__container container grid">
+            @forelse(auth()->user()->products as $product)
+                <article class="favorite__card">
+{{--                    <img src="assets/img/product.png" alt="image" class="favorite__img">--}}
+                    <div class="favorite__data">
+                        <h2 class="favorite__title">{{ $product->name }}</h2><br>
+                        @if($product->old_price)
+                            <span class="favorite__subtitle">{{ $product->old_price }}</span>
+                        @endif
+                        <h3 class="favorite__price">{{ $product->price }}</h3>
+                    </div>
 
+                    <button class="favorite__button button">
+                        <i class="ri-refresh-line"></i>
+                    </button>
+                </article>
+            @empty
+                You have not added any products.
+            @endforelse
         </div>
     </section>
     @endauth
